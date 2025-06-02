@@ -230,6 +230,13 @@ void disabled() {}
  */
 void competition_initialize() {}
 
+
+void blue_goal_rush() {};
+void blue_ring_rush() {};
+void red_goal_rush() {};
+void red_ring_rush() {};
+void solo_awp() {};
+
 /**
  * Runs during auto
  *
@@ -255,12 +262,6 @@ void autonomous() {
 			break;
 	}
 }
-
-void blue_goal_rush();
-void blue_ring_rush();
-void red_goal_rush();
-void red_ring_rush();
-void solo_awp();
 
 /**
  * Runs in driver control
