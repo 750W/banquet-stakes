@@ -255,7 +255,28 @@ void blue_ring_rush() {
   chassis.setPose(-120.0, 0, 0);
 };
 void red_goal_rush() {};
-void red_ring_rush() {};
+void red_ring_rush() {
+  chassis.setPose(148.1, 59.0, 120);
+  chassis.moveToPose(96.2, 59.7, 120, 2000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(60.2, 59.5, 120, 2000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(59.2, 60.8, 120, 1000, {.forwards=true, .maxSpeed = 100});
+  chassis.moveToPose(30.2, 91.1, 120, 3000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(9.8, 110.2, 120, 2000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(9.3, 112.0, 120, 500, {.forwards=true, .maxSpeed = 80});
+  chassis.moveToPose(10.9, 127.5, 120, 1500, {.forwards=true, .maxSpeed = 100});
+  chassis.moveToPose(30.7, 124.8, 120, 2000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(50.4, 121.4, 120, 2000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(59.9, 119.8, 120, 1500, {.forwards=true, .maxSpeed = 100});
+  chassis.moveToPose(80.2, 130.7, 120, 2500, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(120.1, 146.9, 120, 3000, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(160.4, 164.5, 120, 3500, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(169.3, 168.7, 120, 1500, {.forwards=true, .maxSpeed = 100});
+  chassis.moveToPose(155.1, 120.8, 120, 4000, {.forwards=false, .maxSpeed = 120});
+  chassis.moveToPose(140.5, 70.9, 120, 4000, {.forwards=false, .maxSpeed = 120});
+  chassis.moveToPose(125.4, 19.0, 120, 4000, {.forwards=false, .maxSpeed = 120});
+  chassis.moveToPose(120.0, 0, 120, 2000, {.forwards=false, .maxSpeed = 100});
+  chassis.setPose(120.0, 0, 0);
+};
 void solo_awp() {};
 
 /**
