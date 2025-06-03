@@ -97,7 +97,7 @@ ADIDigitalOut clamp ('H');
 ADIDigitalOut rush('A');
 
 // color sensor
-Optical colorSensor(10);
+Optical colorSensor(1);
 double minHue;
 double maxHue;
 bool sorting = false;
