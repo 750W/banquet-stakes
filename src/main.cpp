@@ -81,14 +81,14 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 // intake
-Motor intake (10, MotorGearset::blue, MotorEncoderUnits::degrees);
+Motor intake (12, MotorGearset::blue, MotorEncoderUnits::degrees);
 int intakeControl = 1;
 
 // ladybrown
-Motor lb (19, MotorGearset::blue, MotorEncoderUnits::degrees);
+Motor lb (-19, MotorGearset::blue, MotorEncoderUnits::degrees);
 Rotation rotSensor(5);
 const int numStates = 4;
-int states[numStates] = {0, 70, 300, 450};
+int states[numStates] = {0, 90, 300, 450};
 int currentState = 0;
 int target = 0;
 
@@ -159,6 +159,7 @@ void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
 	target = 0;
+  rotSensor.set_reversed(true);
 	rotSensor.reset_position();
 	colorSensor.set_led_pwm(100);
 	readColor();
@@ -183,7 +184,10 @@ void initialize() {
             pros::lcd::print(3, "Left Total: %f", leftMotors.get_power_all());
             pros::lcd::print(4, "Right Total: %f", rightMotors.get_power_all());
             pros::lcd::print(5, "Rotation: %d", rotSensor.get_position()/100);
-            pros::lcd::print(6, "Hue: %f", colorSensor.get_hue());
+            // pros::lcd::print(6, "Hue: %f", colorSensor.get_hue());
+            int pos = rotSensor.get_position()/100;
+	          int vel = 1*(target - pos);
+            pros::lcd::print(6, "LB VELOCITY: %d", vel);
 
             // Log color sensor status
             if (sorting) {

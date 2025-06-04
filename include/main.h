@@ -21,7 +21,7 @@
 
 #include "api.h"
 
-#define INTAKE_SPEED 110
+#define INTAKE_SPEED 127
 
 #ifdef __cplusplus
 extern "C" {
