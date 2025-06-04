@@ -11,7 +11,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup leftMotors({-16, -15, -14},
                             pros::MotorGearset::blue); // front, middle, back
 pros::MotorGroup rightMotors({7, 8, 9}, pros::MotorGearset::blue);
-
+inline pros::MotorGroup driveleft({-16, -15, -14});
 pros::Imu imu(11);
 
 // // tracking wheels
@@ -100,7 +100,7 @@ ADIDigitalOut rush('A');
 Optical colorSensor(1);
 double minHue;
 double maxHue;
-bool sorting = false;
+bool sorting = true;
 
 /* LADY BROWN */
 
@@ -127,22 +127,23 @@ int readAuton() {
 
 void readColor() {
 	int auton = readAuton();
-	if (auton % 2 == 0) { // blue
-		minHue = 10; // rejects red
+	/*if (auton % 2 == 0) { // blue
+		minHue = 7; // rejects red
 		maxHue = 35;
 	} else { // red
 		minHue = 190; // rejects blue
 		maxHue = 230;
-	}
+	}*/
+maxHue=35;
 }
 
 void colorSort() {
 	if (sorting && colorSensor.get_hue() >= minHue && colorSensor.get_hue() <= maxHue) {
         pros::lcd::print(7, "KILL KILL KILL");
-        pros::delay(200);
+        pros::delay(175);
         // momentarily reverse intake
         intakeControl = -1;
-        pros::delay(45);
+        pros::delay(50);
         intakeControl = 1;
     } else {
       pros::lcd::print(7, "banquet");
@@ -184,10 +185,10 @@ void initialize() {
             pros::lcd::print(3, "Left Total: %f", leftMotors.get_power_all());
             pros::lcd::print(4, "Right Total: %f", rightMotors.get_power_all());
             pros::lcd::print(5, "Rotation: %d", rotSensor.get_position()/100);
-            // pros::lcd::print(6, "Hue: %f", colorSensor.get_hue());
+            pros::lcd::print(6, "Hue: %f", colorSensor.get_hue());
             int pos = rotSensor.get_position()/100;
 	          int vel = 1*(target - pos);
-            pros::lcd::print(6, "LB VELOCITY: %d", vel);
+            //pros::lcd::print(6, "LB VELOCITY: %d", vel);
 
             // Log color sensor status
             if (sorting) {
