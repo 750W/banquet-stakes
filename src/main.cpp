@@ -283,29 +283,9 @@ void red_ring_rush() {
   chassis.moveToPose(120.0, 0, 120, 2000, {.forwards=false, .maxSpeed = 100});
   chassis.setPose(120.0, 0, 0);*/
 };
-void red_solo_awp() {
-  chassis.setPose(0, 0, 0);
-  // lb
-  target = 500;
-  pros::delay(750);
-
-  // first mogo
-  chassis.moveToPoint(0, -37, 1000, {.forwards=false}, false); // first mogo
-  target = -70;
-  clamp.set_value(true);
-  pros::delay(500);
-
-  // move to mogo ring 1
-  chassis.turnToHeading(178,2000,{.direction=AngularDirection::CW_CLOCKWISE},false); // turn to square
-  pros::delay(2000);
-  chassis.setPose(0, 0, 0);
-  pros::delay(500);
-  //intake.move(-INTAKE_SPEED);
-  //chassis.moveToPoint(0, 17, 1000, {}, false);
-};
 
 // need to update values!!!
-void blue_solo_awp() {
+void solo_awp() {
   chassis.setPose(0, 0, 0);
   // lb
   target = 500;
@@ -315,13 +295,36 @@ void blue_solo_awp() {
   chassis.moveToPoint(0, -37, 1000, {.forwards=false}, false); // first mogo
   target = -70;
   clamp.set_value(true);
-  pros::delay(500);
+  pros::delay(1000);
 
-  // move to mogo ring 1
-  chassis.turnToHeading(178,2000,{.direction=AngularDirection::CW_CLOCKWISE},false); // turn to square
-  pros::delay(2000);
+  // turn to mogo ring 1
+  chassis.turnToHeading(162,1000,{.direction=AngularDirection::CW_CLOCKWISE},false); // turn to square
+  // pros::delay(1000);
   chassis.setPose(0, 0, 0);
   pros::delay(500);
+
+  //intake square
+  intake.move(-INTAKE_SPEED);
+  chassis.moveToPoint(0, 18, 1000, {}, false);
+  pros::delay(500);
+  /*
+  chassis.turnToHeading(-40,1000,{},false); // turn to second ring
+  chassis.setPose(0, 0, 0);
+  pros::delay(1000);
+  chassis.moveToPoint(0, 12, 1000, {}, false); //go to second ring
+  pros::delay(500);
+  */
+  chassis.setPose(0, 0, 0);
+  chassis.turnToHeading(-107,1000,{},false); // turn to third ring
+  /*
+  pros::delay(500);
+  chassis.setPose(0, 0, 0);
+  chassis.moveToPoint(0, 30, 1000, {}, false); //go to third ring
+  pros::delay(500);
+  chassis.turnToHeading(-180,1000,{},false); // turn to third ring
+  pros::delay(500);
+*/
+  //
 }
 
 /**
@@ -333,10 +336,10 @@ void autonomous() {
   int autonNum = readAuton();
 	switch (autonNum) {
 		case 0: // start: red left
-			red_solo_awp();
+		  solo_awp();
 			break;
     case 1: // start: blue right
-			blue_solo_awp();
+			solo_awp();
 			break;
     case 2: // start: red left
 			red_ring_rush();
