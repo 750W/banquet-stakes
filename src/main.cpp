@@ -288,7 +288,7 @@ void red_solo_awp() {
   // lb
   target = 500;
   pros::delay(750);
-  
+
   // first mogo
   chassis.moveToPoint(0, -37, 1000, {.forwards=false}, false); // first mogo
   target = -70;
@@ -304,8 +304,24 @@ void red_solo_awp() {
   //chassis.moveToPoint(0, 17, 1000, {}, false);
 };
 
+// need to update values!!!
 void blue_solo_awp() {
+  chassis.setPose(0, 0, 0);
+  // lb
+  target = 500;
+  pros::delay(750);
 
+  // first mogo
+  chassis.moveToPoint(0, -37, 1000, {.forwards=false}, false); // first mogo
+  target = -70;
+  clamp.set_value(true);
+  pros::delay(500);
+
+  // move to mogo ring 1
+  chassis.turnToHeading(178,2000,{.direction=AngularDirection::CW_CLOCKWISE},false); // turn to square
+  pros::delay(2000);
+  chassis.setPose(0, 0, 0);
+  pros::delay(500);
 }
 
 /**
@@ -316,23 +332,23 @@ void blue_solo_awp() {
 void autonomous() {
   int autonNum = readAuton();
 	switch (autonNum) {
-		case 0: // blue right - goal rush
-			blue_goal_rush();
-			break;
-		case 1: // red left - goal rush
-			red_goal_rush();
-			break;
-		case 2: // blue left - ring rush
-			blue_ring_rush();
-			break;
-		case 3: // red right - ring rush
-			red_ring_rush();
-			break;
-		case 4: // solo AWP
+		case 0: // start: red left
 			red_solo_awp();
 			break;
-    case 5: // solo AWP
+    case 1: // start: blue right
 			blue_solo_awp();
+			break;
+    case 2: // start: red left
+			red_ring_rush();
+			break;
+		case 3: // start: blue right
+			blue_ring_rush();
+			break;
+		case 4: // start: red right
+			red_goal_rush();
+			break;
+    case 5: // start: blue left
+		  blue_goal_rush();
 			break;
 	}
 }
