@@ -283,15 +283,19 @@ void red_ring_rush() {
   chassis.moveToPose(120.0, 0, 120, 2000, {.forwards=false, .maxSpeed = 100});
   chassis.setPose(120.0, 0, 0);*/
 };
-void solo_awp() {
+void red_solo_awp() {
   chassis.setPose(0, 0, 0);
   // lb
   target = 500;
   pros::delay(750);
+  
+  // first mogo
   chassis.moveToPoint(0, -37, 1000, {.forwards=false}, false); // first mogo
   target = -70;
   clamp.set_value(true);
   pros::delay(500);
+
+  // move to mogo ring 1
   chassis.turnToHeading(178,2000,{.direction=AngularDirection::CW_CLOCKWISE},false); // turn to square
   pros::delay(2000);
   chassis.setPose(0, 0, 0);
@@ -299,6 +303,10 @@ void solo_awp() {
   //intake.move(-INTAKE_SPEED);
   //chassis.moveToPoint(0, 17, 1000, {}, false);
 };
+
+void blue_solo_awp() {
+
+}
 
 /**
  * Runs during auto
@@ -321,7 +329,10 @@ void autonomous() {
 			red_ring_rush();
 			break;
 		case 4: // solo AWP
-			solo_awp();
+			red_solo_awp();
+			break;
+    case 5: // solo AWP
+			blue_solo_awp();
 			break;
 	}
 }
