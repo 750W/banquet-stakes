@@ -34,21 +34,21 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+lemlib::ControllerSettings linearController(6, // proportional gain (kP)
                                             0, // integral gain (kI)
-                                            3, // derivative gain (kD)
-                                            3, // anti windup
-                                            1, // small error range, in inches
-                                            100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
-                                            500, // large error range timeout, in milliseconds
-                                            20 // maximum acceleration (slew)
+                                            4, // derivative gain (kD)
+                                            0, // anti windup
+                                            0, // small error range, in inches
+                                            0, // small error range timeout, in milliseconds
+                                            0, // large error range, in inches
+                                            0, // large error range timeout, in milliseconds
+                                            0 // maximum acceleration (slew)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+lemlib::ControllerSettings angularController(0.9, // proportional gain (kP)
                                              0, // integral gain (kI)
-                                             10, // derivative gain (kD)
+                                             0, // derivative gain (kD)
                                              3, // anti windup
                                              1, // small error range, in degrees
                                              100, // small error range timeout, in milliseconds
@@ -88,16 +88,16 @@ int intakeControl = 1;
 Motor lb (-19, MotorGearset::blue, MotorEncoderUnits::degrees);
 Rotation rotSensor(5);
 const int numStates = 4;
-int states[numStates] = {0, 90, 300, 450};
+int states[numStates] = {0, 84, 300, 450};
 int currentState = 0;
 int target = 0;
 
 // pneumatics
-ADIDigitalOut clamp ('H');
-ADIDigitalOut rush('A');
+ADIDigitalOut clamp ('A');
+ADIDigitalOut rush('H');
 
 // color sensor
-Optical colorSensor(1);
+Optical colorSensor(13);
 double minHue;
 double maxHue;
 bool sorting = true;
@@ -127,26 +127,25 @@ int readAuton() {
 
 void readColor() {
 	int auton = readAuton();
-	/*if (auton % 2 == 0) { // blue
+	if (auton % 2 == 0) { // blue
 		minHue = 7; // rejects red
-		maxHue = 35;
+		maxHue = 25;
 	} else { // red
 		minHue = 190; // rejects blue
 		maxHue = 230;
-	}*/
-maxHue=35;
+	}
 }
 
 void colorSort() {
 	if (sorting && colorSensor.get_hue() >= minHue && colorSensor.get_hue() <= maxHue) {
-        pros::lcd::print(7, "KILL KILL KILL");
+        pros::lcd::print(7, "WE KILL RAM");
         pros::delay(175);
         // momentarily reverse intake
         intakeControl = -1;
         pros::delay(50);
         intakeControl = 1;
     } else {
-      pros::lcd::print(7, "banquet");
+      pros::lcd::print(7, "we love ram");
     }
 }
 
@@ -192,7 +191,7 @@ void initialize() {
 
             // Log color sensor status
             if (sorting) {
-              if (maxHue == 35) {
+              if (maxHue == 25) {
                 controller.print(0, 0, "KILL RED       ");
               } else {
                 controller.print(0, 0, "KILL BLUE      ");
@@ -238,7 +237,8 @@ void competition_initialize() {}
 
 void blue_goal_rush() {};
 void blue_ring_rush() {
-  chassis.setPose(-148.1, 59.0, 120);
+  chassis.setPose(0, 0, 0);
+  /*
   chassis.moveToPose(-96.2, 59.7, 120, 2000, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(-60.2, 59.5, 120, 2000, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(-59.2, 60.8, 120, 1000, {.forwards=true, .maxSpeed = 100});
@@ -251,17 +251,18 @@ void blue_ring_rush() {
   chassis.moveToPose(-59.9, 119.8, 120, 1500, {.forwards=true, .maxSpeed = 100});
   chassis.moveToPose(-80.2, 130.7, 120, 2500, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(-120.1, 146.9, 120, 3000, {.forwards=true, .maxSpeed = 120});
-  chassis.moveToPose(-160.4, 164.5, 120, 3500, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(-160.4, 164.5, 120, 2500, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(-169.3, 168.7, 120, 1500, {.forwards=true, .maxSpeed = 100});
   chassis.moveToPose(-155.1, 120.8, 120, 4000, {.forwards=false, .maxSpeed = 120});
   chassis.moveToPose(-140.5, 70.9, 120, 4000, {.forwards=false, .maxSpeed = 120});
   chassis.moveToPose(-125.4, 19.0, 120, 4000, {.forwards=false, .maxSpeed = 120});
   chassis.moveToPose(-120.0, 0, 120, 2000, {.forwards=false, .maxSpeed = 100});
-  chassis.setPose(-120.0, 0, 0);
+  chassis.setPose(-120.0, 0, 0);*/
 };
 void red_goal_rush() {};
 void red_ring_rush() {
-  chassis.setPose(148.1, 59.0, 120);
+  chassis.setPose(0, 0, 0);
+/*
   chassis.moveToPose(96.2, 59.7, 120, 2000, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(60.2, 59.5, 120, 2000, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(59.2, 60.8, 120, 1000, {.forwards=true, .maxSpeed = 100});
@@ -274,15 +275,30 @@ void red_ring_rush() {
   chassis.moveToPose(59.9, 119.8, 120, 1500, {.forwards=true, .maxSpeed = 100});
   chassis.moveToPose(80.2, 130.7, 120, 2500, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(120.1, 146.9, 120, 3000, {.forwards=true, .maxSpeed = 120});
-  chassis.moveToPose(160.4, 164.5, 120, 3500, {.forwards=true, .maxSpeed = 120});
+  chassis.moveToPose(160.4, 164.5, 120, 2500, {.forwards=true, .maxSpeed = 120});
   chassis.moveToPose(169.3, 168.7, 120, 1500, {.forwards=true, .maxSpeed = 100});
   chassis.moveToPose(155.1, 120.8, 120, 4000, {.forwards=false, .maxSpeed = 120});
   chassis.moveToPose(140.5, 70.9, 120, 4000, {.forwards=false, .maxSpeed = 120});
   chassis.moveToPose(125.4, 19.0, 120, 4000, {.forwards=false, .maxSpeed = 120});
   chassis.moveToPose(120.0, 0, 120, 2000, {.forwards=false, .maxSpeed = 100});
-  chassis.setPose(120.0, 0, 0);
+  chassis.setPose(120.0, 0, 0);*/
 };
-void solo_awp() {};
+void solo_awp() {
+  chassis.setPose(0, 0, 0);
+  // lb
+  target = 500;
+  pros::delay(750);
+  chassis.moveToPoint(0, -37, 1000, {.forwards=false}, false); // first mogo
+  target = -70;
+  clamp.set_value(true);
+  pros::delay(500);
+  chassis.turnToHeading(178,2000,{.direction=AngularDirection::CW_CLOCKWISE},false); // turn to square
+  pros::delay(2000);
+  chassis.setPose(0, 0, 0);
+  pros::delay(500);
+  //intake.move(-INTAKE_SPEED);
+  //chassis.moveToPoint(0, 17, 1000, {}, false);
+};
 
 /**
  * Runs during auto
@@ -290,7 +306,7 @@ void solo_awp() {};
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
-    int autonNum = readAuton();
+  int autonNum = readAuton();
 	switch (autonNum) {
 		case 0: // blue right - goal rush
 			blue_goal_rush();
@@ -315,7 +331,7 @@ void autonomous() {
  */
 void opcontrol() {
     // variables
-	bool clamp_extended = false;
+	  bool clamp_extended = false;
     bool pusher_extended = false;
     bool lb_pull = false;
 
@@ -354,10 +370,13 @@ void opcontrol() {
 
 		/* PNEUMATICS */
 		if(controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L1))
-			clamp_extended = !clamp_extended;
+			pusher_extended = !pusher_extended;
 
 		if((controller.get_digital_new_press(E_CONTROLLER_DIGITAL_A)))
-			pusher_extended = !pusher_extended;
+			clamp_extended = !clamp_extended;
+
+    if((controller.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)))
+			sorting = !sorting;
 
 		// Update pneumatics states
 		clamp.set_value(clamp_extended);
